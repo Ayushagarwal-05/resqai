@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: resqai-backend
+    env: node
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && node server.js
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: PORT
+        value: 3000

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ResQAI — Emergency Response Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="header">
+    <div class="logo">
+      <span class="logo-cross">✚</span>
+      <span class="logo-text">ResQAI</span>
+    </div>
+    <p class="tagline">AI-Powered Emergency Response</p>
+  </header>
+
+  <main class="main">
+
+    <!-- SOS Bar always visible -->
+    <div class="sos-bar">
+      <span class="sos-label">🚨 QUICK SOS</span>
+      <a href="tel:112" class="sos-chip red">📞 112 Emergency</a>
+      <a href="tel:108" class="sos-chip orange">🚑 108 Ambulance</a>
+      <a href="tel:101" class="sos-chip yellow">🔥 101 Fire</a>
+      <a href="tel:100" class="sos-chip blue">👮 100 Police</a>
+    </div>
+
+    <!-- Input Section -->
+    <section class="input-section">
+      <label class="input-label" for="situation">
+        <span class="label-icon">⚡</span>
+        DESCRIBE THE EMERGENCY
+      </label>
+      <textarea
+        id="situation"
+        class="input-box"
+        placeholder="e.g. My friend suddenly fainted and is not responding..."
+        rows="4"
+        maxlength="500"
+      ></textarea>
+      <div class="input-meta">
+        <span id="charCount">0 / 500</span>
+        <span class="hint">Be as specific as possible · Ctrl+Enter to submit</span>
+      </div>
+
+      <div class="examples-row">
+        <span class="examples-label">Try:</span>
+        <button class="example-chip" onclick="fillExample('Someone is choking and cannot breathe')">Choking</button>
+        <button class="example-chip" onclick="fillExample('My friend fainted and is unconscious')">Fainted</button>
+        <button class="example-chip" onclick="fillExample('Kitchen fire is spreading quickly')">Fire</button>
+        <button class="example-chip" onclick="fillExample('Person having a seizure on the floor')">Seizure</button>
+      </div>
+
+      <button id="analyzeBtn" class="analyze-btn" onclick="analyzeEmergency()">
+        <span class="btn-icon">🚨</span>
+        <span class="btn-text">ANALYZE EMERGENCY</span>
+        <span class="btn-spinner" id="spinner" style="display:none">●</span>
+      </button>
+    </section>
+
+    <!-- Output Section -->
+    <section class="output-section" id="outputSection" style="display:none">
+      <div class="output-header">
+        <span class="output-title-label">EMERGENCY ANALYSIS</span>
+        <div class="urgency-badge" id="urgencyBadge">—</div>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-card type-card">
+          <div class="card-label">EMERGENCY TYPE</div>
+          <div class="card-value" id="emergencyType">—</div>
+        </div>
+        <div class="result-card urgency-card">
+          <div class="card-label">URGENCY LEVEL</div>
+          <div class="card-value urgency-value" id="urgencyLevel">—</div>
+        </div>
+      </div>
+
+      <div class="steps-section">
+        <div class="steps-label">IMMEDIATE ACTION STEPS</div>
+        <ol class="steps-list" id="stepsList"></ol>
+      </div>
+
+      <!-- Smart Action Panel -->
+      <div class="action-panel">
+        <div class="action-panel-label">⚡ SMART ACTIONS</div>
+        <div class="action-buttons">
+
+          <a href="tel:112" class="action-btn call-btn">
+            <span class="action-icon">📞</span>
+            <div class="action-text">
+              <span class="action-title">Call 112</span>
+              <span class="action-sub">National Emergency</span>
+            </div>
+          </a>
+
+          <a href="tel:108" class="action-btn ambulance-btn">
+            <span class="action-icon">🚑</span>
+            <div class="action-text">
+              <span class="action-title">Call 108</span>
+              <span class="action-sub">Ambulance Service</span>
+            </div>
+          </a>
+
+          <button class="action-btn location-btn" onclick="shareLocation()">
+            <span class="action-icon">📍</span>
+            <div class="action-text">
+              <span class="action-title">Share Location</span>
+              <span class="action-sub" id="locationStatus">Tap to get GPS</span>
+            </div>
+          </button>
+
+          <button class="action-btn alert-btn" onclick="alertContact()">
+            <span class="action-icon">🔔</span>
+            <div class="action-text">
+              <span class="action-title">Alert Contact</span>
+              <span class="action-sub">Send SOS message</span>
+            </div>
+          </button>
+
+        </div>
+
+        <!-- Location result box -->
+        <div class="location-box" id="locationBox" style="display:none">
+          <span class="location-icon">📍</span>
+          <div class="location-info">
+            <span class="location-coords" id="locationCoords"></span>
+            <a class="location-link" id="locationLink" target="_blank">Open in Google Maps →</a>
+          </div>
+          <button class="location-copy" onclick="copyLocation()" title="Copy coordinates">📋</button>
+        </div>
+
+      </div>
+
+      <div class="disclaimer">
+        ⚠️ AI guidance does not replace professional emergency services.
+        <strong>Always call 112 or 108</strong> for life-threatening emergencies.
+      </div>
+    </section>
+
+    <div class="error-box" id="errorBox" style="display:none">
+      <span class="error-icon">✗</span>
+      <span id="errorMsg">Something went wrong.</span>
+    </div>
+  </main>
+
+  <footer class="footer">
+    Built for emergencies &nbsp;·&nbsp; Powered by Google Gemini
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
