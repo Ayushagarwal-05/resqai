@@ -126,15 +126,13 @@ function copyLocation() {
   });
 }
 
-// ── Alert contact (SOS email) ─────────────────────────
+// ── Alert contact (UPDATED → SMS instead of email) ─────────────────
 function alertContact() {
   const locText = currentLocation
     ? `https://www.google.com/maps?q=${currentLocation.lat},${currentLocation.lng}`
     : "Location not available";
 
-  const subject = encodeURIComponent("🚨 SOS EMERGENCY ALERT from ResQAI");
-  const body = encodeURIComponent(
-`EMERGENCY ALERT
+  const message = `🚨 SOS EMERGENCY ALERT
 
 Someone needs help!
 
@@ -142,11 +140,12 @@ Emergency: ${currentEmergency || "Emergency reported"}
 Location: ${locText}
 Time: ${new Date().toLocaleString()}
 
-This alert was sent via ResQAI Emergency Response App.
-Please respond immediately or call emergency services: 112 / 108`
-  );
+Sent via ResQAI
+Call emergency services: 112 / 108`;
 
-  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  const phone = "9876543210"; // 🔴 replace with your actual number
+
+  window.location.href = `sms:${phone}?body=${encodeURIComponent(message)}`;
 }
 
 // ── Helpers ───────────────────────────────────────────
