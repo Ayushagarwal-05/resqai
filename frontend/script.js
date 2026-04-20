@@ -143,7 +143,7 @@ Time: ${new Date().toLocaleString()}
 Sent via ResQAI
 Call emergency services: 112 / 108`;
 
-  const phone = "6398944885"; // 🔴 replace with your actual number
+  const phone = "9876543210"; // 🔴 replace with your actual number
 
   window.location.href = `sms:${phone}?body=${encodeURIComponent(message)}`;
 }
